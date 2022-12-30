@@ -18,32 +18,23 @@
       <input class="input form__input" name="content" />
       <button class="btn form__submit-btn" type="submit">Add</button>
     </form>
+
+
+
      <transition-group tag="ol" name="list" class="todo-list">
+       <tr th:each="to:${todoList}">
       <li class="todo-list__item">
-        <table>
-          <thead>
-          <tr>
-            <th>번호</th>
-            <th>할 일</th>
-            <th>수행 여부</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="to:${todoList}">
-            <td th:text="${to.id}"></td>
+
             <td th:text="${to.content}"></td>
-            <td th:text="${to.completed}"></td>
-          </tr>
-          </tbody>
-        </table>
-<!--        <button class="todo-list__item-content" >-->
-<!--        </button>-->
-<!--        <button class="btn todo-list__item-remove" >-->
-<!--          <i class="fa"></i>-->
-<!--        </button>-->
-
+<!--            <td th:text="${to.completed}"></td>-->
+        <button class="todo-list__item-content" >
+        </button>
+        <button class="btn todo-list__item-remove" th:value="${to.id}" >
+<!--          <input type="hidden" th:value="${to.id}" class="id">-->
+          <i class="fa"></i>
+        </button>
       </li>
-
+       </tr>
 
     </transition-group>
 
@@ -64,5 +55,33 @@
   <script src="./script.js"></script>
 
 </body>
+
+<script>
+  {
+    const deleteBtn = document.querySelectorAll(".todo-list__item-remove");
+    deleteBtn.forEach(btn => {
+              btn.addEventListener("click", function (evnet) {
+                const DeleteBtn=event.srcElement;
+
+                const id=DeleteBtn.getAttribute("value");
+
+                const url=`/todo/delete/${id}`;
+                fetch(url,{
+                      method:"DELETE",
+                  }).then(response=>{
+                      //댓글 삭제 실패처리
+                      if (!response.ok){
+                          alert("댓글 삭제 실패..!");
+                          return;
+                      }
+                      //삭제 성공시, 댓글을 화면에서 지움
+                      window.location.reload(); // 필수!
+                      const target=document.querySelector('.id');
+                      target.remove();
+                  });
+              });
+            });
+  }
+</script>
 
 </html>

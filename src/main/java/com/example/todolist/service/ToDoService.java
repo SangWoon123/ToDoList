@@ -20,11 +20,18 @@ public class ToDoService {
     }
 
     public void create(String content) {
+
         ToDoEntity todo=new ToDoEntity();
         todo.setContent(content);
         Boolean completed=false;
         todo.setCompleted(completed);
 
         toDoRepository.save(todo);
+    }
+
+    public void delete(Long id) {
+        ToDoEntity deleted=toDoRepository.findById(id).orElseThrow(()->new IllegalAccessError("삭제하려는 값이 없습니다"));
+
+        toDoRepository.delete(deleted);
     }
 }
