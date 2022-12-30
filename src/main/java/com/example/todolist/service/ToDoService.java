@@ -21,17 +21,27 @@ public class ToDoService {
 
     public void create(String content) {
 
-        ToDoEntity todo=new ToDoEntity();
-        todo.setContent(content);
-        Boolean completed=false;
-        todo.setCompleted(completed);
+        if(content !=""){
+            ToDoEntity todo=new ToDoEntity();
+            todo.setContent(content);
+            toDoRepository.save(todo);
+        }
 
-        toDoRepository.save(todo);
     }
 
     public void delete(Long id) {
         ToDoEntity deleted=toDoRepository.findById(id).orElseThrow(()->new IllegalAccessError("삭제하려는 값이 없습니다"));
 
         toDoRepository.delete(deleted);
+    }
+
+    public void edit(Long id,String content) {
+        ToDoEntity edit=toDoRepository.findById(id).orElseThrow(()->new IllegalArgumentException("수정 할 값이 없습니다"));
+        if (content ==null){
+            edit.setContent(edit.getContent());
+        }else{
+            edit.setContent(content);
+        }
+        toDoRepository.save(edit);
     }
 }

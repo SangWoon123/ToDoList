@@ -18,6 +18,4 @@ public class ToDoEntity {
     @Column
     private String content;
 
-    @Column
-    private Boolean completed;
 }

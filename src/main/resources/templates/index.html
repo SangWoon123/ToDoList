@@ -12,27 +12,21 @@
 </head>
 
 <body>
-  <!-- partial:index.partial.html -->
+
   <div class="app" id="app">
+      <div class="clock"><h1 class = "h1-clock"></h1></div>
+
     <form class="form" th:action="@{/todo/create}" method="post" >
       <input class="input form__input" name="content" />
       <button class="btn form__submit-btn" type="submit">Add</button>
     </form>
 
 
-
      <transition-group tag="ol" name="list" class="todo-list">
        <tr th:each="to:${todoList}">
       <li class="todo-list__item">
-
-            <td th:text="${to.content}"></td>
-<!--            <td th:text="${to.completed}"></td>-->
-        <button class="todo-list__item-content" >
-        </button>
-        <button class="btn todo-list__item-remove" th:value="${to.id}" >
-<!--          <input type="hidden" th:value="${to.id}" class="id">-->
-          <i class="fa"></i>
-        </button>
+        <td th:text="${to.content}"></td>
+        <button class="btn todo-list__item-remove" th:value="${to.id}" >x</button>
       </li>
        </tr>
 
@@ -57,6 +51,7 @@
 </body>
 
 <script>
+    //삭제 기능
   {
     const deleteBtn = document.querySelectorAll(".todo-list__item-remove");
     deleteBtn.forEach(btn => {
@@ -82,6 +77,51 @@
               });
             });
   }
+    { //체크박스
+        const check=document.querySelectorAll('.form-check-input');
+
+        check.forEach(btn=>{
+          btn.addEventListener("click",function (event){
+            const che=event.srcElement;
+
+            if(che.style.textDecorationLine === "line-through"){
+              che.style.textDecorationLine = '';
+            } else {
+              che.style.textDecorationLine = "line-through"
+            }
+          })
+        })
+
+
+
+
+
+
+
+
+    }
+    {
+        const clock = document.querySelector('.h1-clock');
+
+
+        function getTime(){
+            const time = new Date();
+            const hour = time.getHours();
+            const minutes = time.getMinutes();
+            const seconds = time.getSeconds();
+            //clock.innerHTML = hour +":" + minutes + ":"+seconds;
+            clock.innerHTML = `${hour<10 ? `0${hour}`:hour}:${minutes<10 ? `0${minutes}`:minutes}:${seconds<10 ? `0${seconds}`:seconds}`
+        }
+
+
+        function init(){
+            setInterval(getTime, 1000);
+        }
+
+        init()
+
+
+    }
 </script>
 
 </html>

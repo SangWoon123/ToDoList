@@ -15,4 +15,11 @@ public class ToDoRestController {
 
         return "redirect:/todo";
     }
+
+    @PatchMapping("/todo/edit/{id}")
+    public String edit(@PathVariable Long id,String content){
+        toDoService.edit(id,content);
+
+        return "redirect:/todo";
+    }
 }

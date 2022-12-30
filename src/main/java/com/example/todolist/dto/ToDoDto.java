@@ -11,10 +11,10 @@ import javax.persistence.Column;
 public class ToDoDto {
     private Long id;
     private String content;
-    private Boolean completed;
+
 
     public ToDoEntity toEntity() {
 
-        return new ToDoEntity(null,content,completed);
+        return new ToDoEntity(null,content);
     }
 }
